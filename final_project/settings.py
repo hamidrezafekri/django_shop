@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
+    'customer',
+    'product',
+    'order',
+
 ]
 
 MIDDLEWARE = [
@@ -76,9 +81,9 @@ WSGI_APPLICATION = 'final_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'final_project',
-        'USER': 'hamidrezafekri',
+        'USER': 'postgres',
         'PASSWORD': 'hamid14520',
         'HOST': 'localhost',
         'PORT': '5432',
