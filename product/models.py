@@ -2,28 +2,43 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
-from core.models import TimeStampMixin, BaseModel
+from core.models import BaseModel
 
 
-class Discount(TimeStampMixin):
-    pass
-
-class Price(TimeStampMixin):
-    pass
-
-class DiscountCode(TimeStampMixin):
+class Discount(BaseModel):
     pass
 
 
-class Category(TimeStampMixin):
+class Price(BaseModel):
     pass
 
 
-class Status(TimeStampMixin):
+class DiscountCode(BaseModel):
     pass
 
 
-class Product(TimeStampMixin):
-    name = models.CharField(verbose_name=_('name'),help_text=_('enter product name'),
-                            max_length=200,blank=False,null=False)
-    Image = models.FileField(_('image'),upload_to='Product')
+class Category(BaseModel):
+    pass
+
+
+class Details(BaseModel):
+    product_detail = models.ForeignKey('Product', verbose_name=_('add details'),on_delete=models.CASCADE)
+    feature = models.CharField(max_length=50,verbose_name=_('feature'))
+    explain = models.CharField(max_length=50,verbose_name=_('explain'))
+
+
+class Product(BaseModel):
+    name = models.CharField(verbose_name=_('name'),
+                            help_text=_('enter product name'),
+                            max_length=200,
+                            blank=False,
+                            null=False)
+
+    Image = models.FileField(_('image'), upload_to='Product',
+                             help_text=_('put picture for product'),
+                             blank=False,
+                             null=False)
+
+    inventory = models.IntegerField(verbose_name=_('Inventory'),
+                                    blank=False,
+                                    null=False)
