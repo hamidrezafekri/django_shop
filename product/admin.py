@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 # Register your models here.
-from product.models import Product, Detail, Categori, \
+from product.models import Product, Categori, \
     DiscountCode, Price, Discount, Brand
 
 
@@ -36,34 +36,25 @@ class CategoryAdmid(admin.ModelAdmin):
     actions = [logical_delete]
 
 
-class DetailAdmin(admin.ModelAdmin):
-    fieldsets = [(_('add detail'),
-                  {'fields': ['product_detail', 'feature', 'explain']}),
-                 (_('delete_status'),
-                  {'fields': ['delete_time_stamp', 'is_deleted']})]
-
-    search_fields = ['product_detail', 'feature', 'explain']
-    list_filter = ['product_detail', 'feature', 'explain']
-    actions = [logical_delete]
 
 class DiscountCodeAdmin(admin.ModelAdmin):
     fieldsets = [(_('add discount_code'),
-                  {'fields': ['name', 'code', 'expiry_date']}),
+                  {'fields': ['name', 'code']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'is_deleted']})]
 
-    search_fields = ['name', 'code', 'expiry_date']
-    list_filter = ['name', 'code', 'expiry_date']
+    search_fields = ['name', 'code']
+    list_filter = ['name', 'code']
     actions = [logical_delete]
 
 class DiscountAdmin(admin.ModelAdmin):
     fieldsets = [(_('add discount'),
-                  {'fields': ['name', 'discount', 'expiry_date']}),
+                  {'fields': ['name', 'discount']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'is_deleted']})]
 
-    search_fields = ['name', 'discount', 'expiry_date']
-    list_filter = ['name', 'discount', 'expiry_date']
+    search_fields = ['name', 'discount']
+    list_filter = ['name', 'discount']
     actions = [logical_delete]
 
 
@@ -88,8 +79,7 @@ class ProductAdmin(admin.ModelAdmin):
     actions = [logical_delete]
 
 
-class DetailInline(admin.TabularInline):
-    model = Detail
+
 
 
 class ProductModelAdmin(admin.ModelAdmin):
@@ -101,7 +91,6 @@ class ProductModelAdmin(admin.ModelAdmin):
     search_fields = ['name', 'image', 'inventory', 'inavailable']
     list_filter = ['name', 'inventory', 'inavailable']
     actions = [logical_delete]
-    inlines = [DetailInline]
 
 
 
@@ -110,6 +99,5 @@ admin.site.register(Discount, PriceAdmin)
 admin.site.register(Price, PriceAdmin)
 admin.site.register(DiscountCode, DiscountCodeAdmin)
 admin.site.register(Categori, CategoryAdmid)
-admin.site.register(Detail, DetailAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductModelAdmin)

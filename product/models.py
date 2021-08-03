@@ -14,8 +14,6 @@ class Discount(BaseModel):
                                    validators=[],
                                    choices=currency)
 
-    expiry_date =models.DateTimeField(verbose_name=_('expiry_date'),
-                                      help_text=_('enter the expiry date'))
 
 
     def __str__(self):
@@ -43,8 +41,6 @@ class DiscountCode(BaseModel):
                                verbose_name=_('discount code'),
                                help_text=' enter code for discount ')
 
-    expiry_date = models.DateTimeField(verbose_name=_('expiry_date'))
-
     def __str__(self):
         return f'{self.id}#  {self.name}'
 
@@ -63,24 +59,6 @@ class Categori(BaseModel):
     def __str__(self):
         return f'{self.id}# {self.name}'
 
-
-class Detail(BaseModel):
-    product_detail = models.ForeignKey('Product',
-                                        verbose_name=_('product_detail'),
-                                        on_delete=models.CASCADE)
-
-    feature = models.CharField(max_length=50,
-                               verbose_name=_('feature'),
-                               blank=True,
-                               null=True)
-
-    explain = models.CharField(max_length=250,
-                               verbose_name=_('explain'),
-                               blank=True,
-                               null=True)
-
-    def __str__(self):
-        return f'{self.id}# {Product.name}'
 
 
 class Brand(BaseModel):
@@ -132,6 +110,11 @@ class Product(BaseModel):
     inventory = models.PositiveIntegerField(verbose_name=_('Inventory'),
                                             blank=False,
                                             null=False)
+
+    view = models.PositiveIntegerField(verbose_name=_('view'),
+                                       blank=True,
+                                       null=True,
+                                       default=0)
 
     inavailable = models.BooleanField(verbose_name=_('inavailable'))
 
