@@ -136,4 +136,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOCALE_PATHS=[BASE_DIR/'locale']
 
+
+MEDIA_URL= '/media/'
+MEDIA_ROOT = BASE_DIR/'media'
+
 AUTH_USER_MODEL = 'core.User'

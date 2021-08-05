@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core.models import BaseModel
+from customer.models import Favourite
 
 
 class Discount(BaseModel):
@@ -8,16 +9,18 @@ class Discount(BaseModel):
                             verbose_name=_('discount name'),
                             help_text=_('enter the discount'))
 
-    currency = [('toman', 'toman'), ('percent', 'percent')]
-    discount = models.IntegerField(verbose_name=_('discount'),
-                                   help_text=_('enter the discount'),
-                                   validators=[],
-                                   choices=currency)
+    discount = models.PositiveIntegerField(verbose_name=_('discount'),
+                                           help_text=_('enter the discount'),
+                                           validators=[],
+                                           )
 
-
+    type = models.CharField(max_length=50,
+                            blank=False,
+                            null=False,
+                            verbose_name=_('type of discount'))
 
     def __str__(self):
-        return f'{self.id}#   {self.discount}'
+        return f'{self.id}#  {self.discount}'
 
 
 class Price(BaseModel):
@@ -27,8 +30,13 @@ class Price(BaseModel):
                                         null=False,
                                         validators=[])
 
+    unit =models.CharField(max_length=50 ,
+                            blank=False,
+                            null=False,
+                            verbose_name=_('unit of money'))
+
     def __str__(self):
-        return f'{self.id}#   {self.price}'
+        return f'{self.price}({self.unit})'
 
 
 class DiscountCode(BaseModel):
@@ -39,13 +47,19 @@ class DiscountCode(BaseModel):
 
     code = models.IntegerField(unique=True,
                                verbose_name=_('discount code'),
-                               help_text=' enter code for discount ')
+                               help_text=' enter code for discount ',
+                               )
+
+    type = models.CharField(max_length=50,
+                            blank=False,
+                            null=False,
+                            verbose_name=_('type of discountcode'))
 
     def __str__(self):
         return f'{self.id}#  {self.name}'
 
 
-class Categori(BaseModel):
+class Category(BaseModel):
     parent = models.ForeignKey('self', on_delete=models.CASCADE,
                                verbose_name=_('enter parent if exist'),
                                default=None,
@@ -58,7 +72,6 @@ class Categori(BaseModel):
 
     def __str__(self):
         return f'{self.id}# {self.name}'
-
 
 
 class Brand(BaseModel):
@@ -75,26 +88,25 @@ class Product(BaseModel):
     brand = models.ForeignKey(Brand,
                               verbose_name=_('barnd name'),
                               on_delete=models.CASCADE)
-    category = models.ForeignKey(Categori,
+
+    category = models.ForeignKey(Category,
                                  verbose_name=_('category'),
                                  on_delete=models.CASCADE,
                                  help_text=_('enter the category'),
                                  blank=False,
                                  null=False)
 
-    price = models.ForeignKey(Price,on_delete=models.CASCADE,
+    price = models.ForeignKey(Price, on_delete=models.CASCADE,
                               verbose_name=_('price'),
                               help_text=_('enter the price'),
                               blank=False,
                               null=False)
 
     discount = models.ForeignKey(Discount, on_delete=models.CASCADE,
-                              verbose_name=_('discount'),
-                              help_text=_('enter the discount'),
-                              blank=False,
-                              null=False)
-
-
+                                 verbose_name=_('discount'),
+                                 help_text=_('enter the discount'),
+                                 blank=False,
+                                 null=False)
 
     name = models.CharField(verbose_name=_('name'),
                             help_text=_('enter product name'),
@@ -102,7 +114,7 @@ class Product(BaseModel):
                             blank=False,
                             null=False)
 
-    image = models.FileField(_('image'), upload_to=f'Product/',
+    image = models.FileField(_('image'), upload_to=f'',
                              help_text=_('put picture for product'),
                              blank=False,
                              null=False, )
@@ -116,7 +128,10 @@ class Product(BaseModel):
                                        null=True,
                                        default=0)
 
-    inavailable = models.BooleanField(verbose_name=_('inavailable'))
+    inavailable = models.BooleanField(verbose_name=_('inavailable'),
+                                      default= False)
+
+    favourite = models.ForeignKey(Favourite, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.id}# {self.name}  cat :{self.category} ({self.inventory})'
+        return f'{self.id}# {self.name}'

@@ -6,14 +6,18 @@ from django.utils.translation import gettext_lazy as _
 
 class BaseManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(is_deleted=False)
+        return super().get_queryset().filter(deleted=False)
+
+
+    def archive(self):
+        return super().get_queryset()
 
 
 class BaseModel(models.Model):
     delete_time_stamp = models.DateTimeField(null=True, blank=True, verbose_name=_('delete date'))
     create_at = models.DateTimeField(auto_now_add=True, verbose_name=_('create date'))
     update_at = models.DateTimeField(auto_now=True, verbose_name=_('update date'))
-    is_deleted = models.BooleanField(default=False, verbose_name=_('is deleted'))
+    deleted = models.BooleanField(default=False, verbose_name=_('is deleted'))
 
     objects = BaseManager()
 
@@ -25,6 +29,10 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+
+
+class TestModel(BaseModel):
+    pass
 
 class MyUserManager(UserManager):
 

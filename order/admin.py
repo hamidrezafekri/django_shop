@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+from .models import *
 
 
 def logical_delete(modeladmin, request, queryset):
@@ -8,23 +9,47 @@ def logical_delete(modeladmin, request, queryset):
 
 logical_delete.short_description = "logical delete"
 
+
 class OrderItemAdmin(admin.ModelAdmin):
     fieldsets = [(_('order items'),
-                  {'fields': ['product','favourite']}),
+                  {'fields': ['product','customer','quantity','ordered']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'is_deleted']})]
 
-    search_fields = ['product','favourite']
-    list_filter = ['product','favourite']
+    search_fields = ['product','customer','quantity','ordered']
+    list_filter = ['product','customer','quantity','ordered']
     actions = [logical_delete]
 
 
 class OrderAdmin(admin.ModelAdmin):
     fieldsets = [(_('order items'),
-                  {'fields': ['product', 'favourite']}),
+                  {'fields': ['customer','orderitem','status']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'is_deleted']})]
 
-    search_fields = ['product', 'favourite']
-    list_filter = ['product', 'favourite']
+    search_fields = ['customer','orderitem','status']
+    list_filter = ['customer','orderitem','status']
     actions = [logical_delete]
+
+
+class OrderStatusAdmin(admin.ModelAdmin):
+    fieldsets = [(_('status'),
+                  {'fields': ['status']}),
+                 (_('delete_status'),
+                  {'fields': ['delete_time_stamp', 'is_deleted']})]
+
+    search_fields = ['status']
+    list_filter = ['status']
+    actions = [logical_delete]
+
+
+
+
+
+
+admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(OrderStatus, OrderStatusAdmin)
+
+
+

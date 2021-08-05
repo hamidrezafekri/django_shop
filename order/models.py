@@ -1,9 +1,8 @@
-from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core.models import BaseModel
 from customer.models import Favourite, Customer
 from product.models import *
-# Create your models here.
+
 class OrderItem(BaseModel):
     product = models.ForeignKey(Product,
                                 on_delete=models.CASCADE,
@@ -11,7 +10,22 @@ class OrderItem(BaseModel):
                                 help_text='choose a product',
                                 null=False,blank=False)
 
-    favourite = models.ForeignKey(Favourite,on_delete=models.CASCADE)
+
+    customer = models.ForeignKey(Customer,
+                                 null=False,
+                                 blank=False,
+                                 on_delete=models.CASCADE)
+
+    quantity = models.PositiveIntegerField(verbose_name=_('order quantity'),
+                                           default= 1)
+
+
+    ordered = models.BooleanField(default=False)
+
+
+
+
+    def __str__(self):f'{Product.name}'
 
 
 
@@ -25,12 +39,14 @@ class Order(BaseModel):
                                  on_delete=models.CASCADE,
                                  verbose_name=(_('customer')))
 
-    quantity = models.PositiveIntegerField(verbose_name="quantity",
-                                           default=1,
-                                           null=False,
-                                           blank=False)
 
-    reciept = models.ForeignKey('Reciept',on_delete=models.CASCADE)
+
+    status = models.ForeignKey('OrderStatus',
+                               on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f'{OrderItem.product}--{Customer.first_name}{Customer.last_name}'
 
 
 
@@ -40,9 +56,13 @@ class OrderStatus(BaseModel):
                               help_text=_('enter the order status'))
 
 
+    def __str__(self):
+        return self.status
 
 
-class Reciept(BaseModel):
+
+
+class Oredr(BaseModel):
 
     orderstatus =models.ForeignKey(OrderStatus,
                                    on_delete=models.CASCADE,
