@@ -8,7 +8,6 @@ class BaseManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(deleted=False)
 
-
     def archive(self):
         return super().get_queryset()
 
@@ -30,9 +29,9 @@ class BaseModel(models.Model):
         abstract = True
 
 
-
 class TestModel(BaseModel):
     pass
+
 
 class MyUserManager(UserManager):
 
@@ -46,4 +45,11 @@ class User(AbstractUser):
 
     objects = MyUserManager()
 
-    phone = models.CharField(max_length=15, unique=True)
+    phone = models.CharField(max_length=15,
+                             unique=True,
+                             verbose_name=_('phone number'))
+
+    def save(self, *args, **kwargs):
+        self.password = super().password
+        self.set_password(raw_password=self.password)
+        super().save(*args, **kwargs)

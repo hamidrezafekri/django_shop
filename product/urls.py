@@ -1,12 +1,13 @@
 from django.urls import path
-
-from product.serializer import ProductSerializer
-from product.views import ProductView, product_api
+from product.views import ProductView, ProductListApiView, ProductDetailApi, \
+    ProductDetailView, CategoryView
 
 urlpatterns = [
-    path('product/',ProductView.as_view(), name = 'home'),
-    path('myapi/',product_api,name='home')
+    path('products/', ProductView.as_view(), name='product'),
+    path('product/<slug>', ProductDetailView.as_view(), name='product_detail'),
+    path('category/', CategoryView.as_view(), name='category_list'),
+
+    path('product_api/', ProductListApiView.as_view()),
+    path('product_detail_api/<int:pk>', ProductDetailApi.as_view()),
 
 ]
-
-

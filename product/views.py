@@ -1,40 +1,41 @@
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-
 from .models import *
-# Create your views here.
 from django.views.generic import ListView, DetailView
-
 from .serializer import ProductSerializer
 
 
 class ProductView(ListView):
-    template_name = 'product/home.html'
+    template_name = 'product/product.html'
     model = Product
 
 
+
 class ProductDetailView(DetailView):
-    pass
+    template_name = 'product/product_detail.html'
+    model = Product
+
+
+class CategoryView(ListView):
+    template_name = 'product/category.html'
+    model = Category
+
+
+from rest_framework.generics import *
+
+
+class ProductListApiView(ListCreateAPIView, ListAPIView):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+
+
+class ProductDetailApi(RetrieveDestroyAPIView,UpdateAPIView):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+    lookup_url_kwarg = 'pk'
+    lookup_field = 'id'
 
 
 
-@csrf_exempt
-def product_api(request):
-    if request.method == 'GET':
-        # List of Questions!
-        products = Product.objects.all()
-        p = ProductSerializer(products, many=True)
-        return JsonResponse({
-            "product": p.data
-        })
-    elif request.method == 'POST':
-        # Create new instance!
-        p = ProductSerializer(data=request.POST)
-        print(request.POST)
-        if p.is_valid():
-            p.save()
-            print(request.POST)
-            return JsonResponse(p.data)
-        else:
-            return JsonResponse(p.errors)
+
+

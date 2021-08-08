@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-# Register your models here.
 from product.models import Product, Category, \
-    DiscountCode, Price, Discount, Brand
+    DiscountCode, Price, Discount, Brand, Image
+from django_mptt_admin.admin import DjangoMpttAdmin
 
 
 def logical_delete(modeladmin, request, queryset):
@@ -26,35 +26,41 @@ class BrandAdmin(admin.ModelAdmin):
     actions = [logical_delete]
 
 
-class CategoryAdmid(admin.ModelAdmin):
-    fieldsets = [(_('add catergory'),
-                  {'fields': ['parent', 'name']}),
-                 (_('delete_status'),
-                  {'fields': ['delete_time_stamp', 'deleted']})]
-    search_fields = ['parent', 'name']
-    list_filter = ['name', 'parent']
-    actions = [logical_delete]
+class CategoryAdmin(DjangoMpttAdmin):
+    # fieldsets = [(_('add catergory'),
+    #               {'fields': ['parent', 'name', 'slug']}),
+    #              (_('delete_status'),
+    #               {'fields': ['delete_time_stamp', 'deleted']})]
+    # search_fields = ['parent', 'name', 'slug']
+    # list_filter = ['name', 'parent', 'slug']
+    # actions = [logical_delete]
+    pass
 
 
 class DiscountCodeAdmin(admin.ModelAdmin):
     fieldsets = [(_('add discount_code'),
-                  {'fields': ['name', 'code','type']}),
+                  {'fields': ['name', 'code', 'type']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'deleted']})]
 
-    search_fields = ['name', 'code','type']
-    list_filter = ['name', 'code','type']
+    search_fields = ['name', 'code', 'type']
+    list_filter = ['name', 'code', 'type']
     actions = [logical_delete]
+
+
+class ImageInLine(admin.StackedInline):
+    model = Image
+    extra = 5
 
 
 class DiscountAdmin(admin.ModelAdmin):
     fieldsets = [(_('add discount'),
-                  {'fields': ['name', 'discount','type']}),
+                  {'fields': ['name', 'discount', 'type']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'deleted']})]
 
-    search_fields = ['name', 'discount','type']
-    list_filter = ['name','type']
+    search_fields = ['name', 'discount', 'type']
+    list_filter = ['name', 'type']
     actions = [logical_delete]
 
 
@@ -69,31 +75,25 @@ class PriceAdmin(admin.ModelAdmin):
     actions = [logical_delete]
 
 
-class ProductAdmin(admin.ModelAdmin):
-    fieldsets = [(_('add product'),
-                  {'fields': ['name', 'image', 'inventory', 'inavailable']}),
-                 (_('delete_status'),
-                  {'fields': ['delete_time_stamp', 'deleted']})]
-
-    search_fields = ['name', 'image', 'inventory', 'inavailable']
-    list_filter = ['name', 'image', 'inventory', 'inavailable']
-    actions = [logical_delete]
-
-
 class ProductModelAdmin(admin.ModelAdmin):
     fieldsets = [(_('add product'),
-                  {'fields': ['name', 'image', 'inventory', 'inavailable', 'price', 'category', 'brand', 'discount']}),
+                  {'fields': ['name', 'inventory', 'inavailable', 'price',
+                              'category', 'brand', 'discount', 'score', 'view', 'slug']}),
                  (_('delete_status'),
-                  {'fields': ['delete_time_stamp', 'deleted']})]
+                  {'fields': ['delete_time_stamp', 'deleted'],
+                   })]
 
-    search_fields = ['name', 'image', 'inventory', 'inavailable']
-    list_filter = ['name', 'inventory', 'inavailable']
+    search_fields = ['name', 'inventory', 'inavailable', 'slug']
+    list_filter = ['name', 'inventory', 'inavailable', 'slug']
     actions = [logical_delete]
+    inlines = [ImageInLine]
+
 
 
 admin.site.register(Discount, DiscountAdmin)
 admin.site.register(Price, PriceAdmin)
 admin.site.register(DiscountCode, DiscountCodeAdmin)
-admin.site.register(Category, CategoryAdmid)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductModelAdmin)
+

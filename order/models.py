@@ -19,21 +19,26 @@ class OrderItem(BaseModel):
     quantity = models.PositiveIntegerField(verbose_name=_('order quantity'),
                                            default= 1)
 
+    order = models.ForeignKey('Order',
+                                  on_delete=models.CASCADE,
+                                  verbose_name=_('add order'),
+                                  )
 
-    ordered = models.BooleanField(default=False)
+    def __str__(self):
+        return f'{self.product.name}'
 
+    def check_inventory(self):
+        if not self.quantity<=self.product.inventory:
+            raise Exception(_('inventory is not enough'))
 
+    def total_price_order_item(self):
+        return self.product.product_final_price()*self.quantity
 
-
-    def __str__(self):f'{Product.name}'
 
 
 
 class Order(BaseModel):
-    orderitem = models.ForeignKey(OrderItem,
-                                  on_delete=models.CASCADE,
-                                  verbose_name=_('add order'),
-                                  )
+
 
     customer = models.ForeignKey(Customer,
                                  on_delete=models.CASCADE,
@@ -46,14 +51,15 @@ class Order(BaseModel):
 
 
     def __str__(self):
-        return f'{OrderItem.product}--{Customer.first_name}{Customer.last_name}'
+        return f'{self.customer.user.username}'
 
 
-
+STATUS=[('processing','processing'),('delivered','delivered'),('cancled','cancled')]
 class OrderStatus(BaseModel):
     status = models.CharField(max_length=50,
                               verbose_name=_('status'),
-                              help_text=_('enter the order status'))
+                              help_text=_('enter the order status'),
+                              choices=STATUS)
 
 
     def __str__(self):
@@ -62,26 +68,7 @@ class OrderStatus(BaseModel):
 
 
 
-class Oredr(BaseModel):
 
-    orderstatus =models.ForeignKey(OrderStatus,
-                                   on_delete=models.CASCADE,
-                                   verbose_name=('order status'),
-                                   help_text='enter the status',
-                                   blank=False,
-                                   null=False)
-
-    customer = models.ForeignKey(Customer,
-                                 on_delete=models.CASCADE,
-                                 verbose_name=(_('customer')))
-
-    discountcode= models.ForeignKey(DiscountCode,
-                                    on_delete=models.CASCADE,
-                                    verbose_name=_('discount code'))
-
-
-    def __str__(self):
-        return f'{Customer.first_name}--{OrderStatus.status}'
 
 
 

@@ -5,9 +5,8 @@
     <title>home</title>
 </head>
 <body>
-{% for item in object_list %}
+{% for item in Category %}
     {{ item.price }}
-    <img src="{{ item.image.url}}">
 
 {% endfor %}
 
