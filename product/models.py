@@ -5,12 +5,24 @@ from customer.models import Favourite
 from django.shortcuts import reverse
 from mptt.models import TreeForeignKey, MPTTModel
 
-UNIT = [('T', 'toamn'), ('D', 'dollar')]
-TYPE = [('P', 'percent'), ('A', 'amount')]
+UNIT = [('toman', 'toman'), ('dollar', 'dollar')]
+TYPE = [('percent', 'percent'), ('amount', 'amount')]
+
+
+def brand_image_path(instance, filename):
+    return f'brand/{instance.Brand.name}/{filename}'
+
+
+def product_image_path(instance, filename):
+    return f'product/{instance.category.name}/{instance.name}/{filename}'
+
+
+def product_images_path(instance, filename):
+    return f'product/{instance.product.category.name}/{instance.product.name}/{filename}'
+
 
 
 class Discount(BaseModel):
-
     name = models.CharField(max_length=50,
                             verbose_name=_('discount name'),
                             help_text=_('enter the discount'))
@@ -72,7 +84,6 @@ class DiscountCode(BaseModel):
         return f'{self.id}#  {self.name}'
 
 
-
 class Category(BaseModel, MPTTModel):
     parent = TreeForeignKey('self', on_delete=models.CASCADE,
                             verbose_name=_('enter parent if exist'),
@@ -105,20 +116,27 @@ class Brand(BaseModel):
                             help_text=_('enter the brand name'),
                             unique=True)
 
+    image = models.FileField(upload_to=brand_image_path,
+                             help_text=_('put picture for brand'),
+                             verbose_name=_('barnd image'),
+                             blank=False,
+                             null=False)
+
     def __str__(self):
         return f'{self.id}# {self.name}'
+
+#TODO: add descreation for products
+#TODO: add new model for properties
+
 
 
 class Image(BaseModel):
     product = models.ForeignKey('Product', on_delete=models.CASCADE,
-                                verbose_name=_('product image'))
-
-    image = models.FileField(_('image'), upload_to=f'',
+                                verbose_name=_('product image'), related_name='images')
+    image = models.FileField(upload_to=product_images_path, verbose_name=_('image'),
                              help_text=_('put picture for product'),
                              blank=False,
                              null=False, )
-
-    main_image = models.BooleanField(verbose_name=_('main image'))
 
 
 class Product(BaseModel):
@@ -144,6 +162,11 @@ class Product(BaseModel):
                                  help_text=_('enter the discount'),
                                  blank=False,
                                  null=False)
+    main_image = models.FileField(upload_to=product_image_path,
+                                  verbose_name=_('image'),
+                                  help_text=_('put picture for product'),
+                                  blank=False,
+                                  null=False, )
 
     name = models.CharField(verbose_name=_('name'),
                             help_text=_('enter product name'),
@@ -168,7 +191,9 @@ class Product(BaseModel):
 
     favourite = models.ForeignKey(Favourite,
                                   on_delete=models.CASCADE,
-                                  verbose_name=_('favourite product'))
+                                  verbose_name=_('favourite product'),
+                                  null=True,
+                                  blank=True)
     slug = models.SlugField(max_length=150)
 
     def __str__(self):
@@ -190,11 +215,17 @@ class Product(BaseModel):
         })
 
     def calculate_discount(self):
+        print(self.discount.type)
         if self.discount.type == 'percent':
-            return self.price.price * self.discount.discount // 100
-        return self.price.price - (self.price.price - self.discount.discount)
+            return self.price.price * (self.discount.discount / 100)
+        return self.discount.discount
+
+    # TODO:calculate discount percent if type is
 
     def product_final_price(self):
         if self.discount.discount:
-            return self.price.price - self.calculate_discount()
-        return self.price.price
+            return int(self.price.price - (self.calculate_discount()))
+        return int(self.price.price)
+
+    def has_inventory(self):
+        return self.inventory > 0

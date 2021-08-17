@@ -42,6 +42,9 @@ class Order(BaseModel):
 
     status = models.ForeignKey('OrderStatus',
                                on_delete=models.CASCADE)
+    #TODO:add subtotal field for order
+    #TODO : add total field for order
+    #TODO : timestamp field for order
 
     def __str__(self):
         return f'{self.customer.username}'

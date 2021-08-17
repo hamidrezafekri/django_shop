@@ -14,6 +14,10 @@ class AddressAdmin(admin.ModelAdmin):
     actions = [logical_delete]
 
 
+class CustomerAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(Customer)
 admin.site.register(Address)
 admin.site.register(Favourite)

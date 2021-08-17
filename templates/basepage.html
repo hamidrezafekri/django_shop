@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://kit.fontawesome.com/7df410ceb9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/searchbox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <script src="{% static "lightbox.min.js" %}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block head %}{% endblock %}
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col p-0">
+            <nav class="navbar navbar-expand-xl position-relative"
+                 style="background-color: #78a206;height: 25%">
+                <!--search-->
+                <div class="container-fluid justify-content-center">
+                    <div class="row">
+                        <div class="col-12 col-md-10 col-lg-12 ">
+                            <form class="card" style="size: 600px">
+                                <div class="card-body row no-gutters align-items-center">
+                                    <!--end of col-->
+                                    <div class="col">
+                                        <input class="form-control form-control-lg form-control-borderless"
+                                               type="search" placeholder="Search topics or keywords">
+                                    </div>
+                                    <!--end of col-->
+                                    <div class="col-auto">
+                                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                                    </div>
+                                    <!--end of col-->
+                                </div>
+                            </form>
+                        </div>
+                        <!--end of col-->
+                    </div>
+                </div>
+
+
+                <!-- Collapse button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav1"
+                        aria-controls="basicExampleNav1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon" style="background-color: #78a206"><i class="fas fa-bars"
+                                                                                           style="color: white ;"></i></span>
+                </button>
+
+
+                <a href="#!" class="position-absolute waves-effect ml-0" style="bottom: 10px;left:10px">
+                                <span class="badge badge-pill red border-danger"
+                                      style="background-color: red;color: white">1</span>
+                    <i class="fas fa-shopping-cart pl-0 " style="color: white ;font-size: 35px; "></i>
+                </a>
+
+                <div class="collapse navbar-collapse" id="basicExampleNav1">
+
+                    <!-- Right -->
+                    <ul class="navbar-nav ml-auto position-absolute " style="bottom:10px;right:10px">
+                        <li class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    style="color: white">
+                                Menu
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {% load mptt_tags %}
+                                <ul class="root list-group">
+                                    {% recursetree category %}
+                                        <li style="list-style-type: none ;font-size:15px">
+                                            <a href="#" style="list-style-type: none">{{ node.name }}</a>
+                                            {% if not node.is_leaf_node %}
+                                                <ul class="children">
+                                                    {{ children }}
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                    {% endrecursetree %}
+                                </ul>
+                            </div>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'customer:profile' %}"
+                               class="nav-link waves-effect hidden-desktop hidden-tablet" style="color: white">hi    {{user.username  }}
+
+                            </a>
+                            <li class="nav-item">
+                            <a href="{% url 'customer:logout' %}"
+                               class="nav-link waves-effect hidden-desktop hidden-tablet" style="color: white">logout
+
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'customer:login' %}" class="nav-link waves-effect" style="color: white">
+                                Sign in
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'customer:signup' %}" type="button"
+                               class="nav-link waves-effect" style="color: white">Signup</a>
+                        </li>
+
+                        {% endif %}
+                    </ul>
+
+                </div>
+                <!-- Links -->
+
+            </nav>
+
+
+            {% block content %}
+            {% endblock %}
+
+            <!-- Site footer -->
+            <footer class="site-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <h6>About</h6>
+                            <p class="text-justify">Scanfcode.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative to
+                                help the upcoming programmers with the code. Scanfcode focuses on providing the most
+                                efficient code or snippets as the code wants to be simple. We will help programmers
+                                build up concepts in different programming languages that include C, C++, Java, HTML,
+                                CSS, Bootstrap, JavaScript, PHP, Android, SQL and Algorithm.</p>
+                        </div>
+
+                        <div class="col-xs-6 col-md-3">
+                            <h6>Categories</h6>
+                            <ul class="footer-links">
+                                <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
+                                <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
+                                <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
+                                <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
+                                <li><a href="http://scanfcode.com/category/android/">Android</a></li>
+                                <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-6 col-md-3">
+                            <h6>Quick Links</h6>
+                            <ul class="footer-links">
+                                <li><a href="http://scanfcode.com/about/">About Us</a></li>
+                                <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
+                                <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
+                                <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
+                                <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <p class="copyright-text">Copyright &copy; 2017 All Rights Reserved by
+                                <a href="#">Scanfcode</a>.
+                            </p>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <ul class="social-icons">
+                                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

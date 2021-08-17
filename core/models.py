@@ -4,12 +4,12 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
-# class BaseManager(models.Manager):
-#     def get_queryset(self):
-#         return super().get_queryset().filter(deleted=False)
-#
-#     def archive(self):
-#         return super().get_queryset()
+class BaseManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
+
+    def archive(self):
+        return super().get_queryset()
 
 
 class BaseModel(models.Model):
@@ -33,18 +33,6 @@ class TestModel(BaseModel):
     pass
 
 
-class MyUserManager(UserManager):
-
-    def create_superuser(self, username=None, email=None, password=None, **extra_fields):
-        username = extra_fields['phone']
-        return super().create_superuser(username, email, password, **extra_fields)
-
 
 class User(AbstractUser):
-    USERNAME_FIELD = 'phone'
-
-    objects = MyUserManager()
-
-    phone = models.CharField(max_length=15,
-                             unique=True,
-                             verbose_name=_('phone number'))
+    pass

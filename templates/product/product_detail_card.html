@@ -1,0 +1,102 @@
+{% extends 'basepage.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/product_detail_card.css" %}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+    <div class="card mt-5 mr-1">
+        <div class="row">
+            <aside class="col-sm-5 border-right">
+                <article class="gallery-wrap">
+                    <div class="img-big-wrap">
+                        <div><a href="#"><img class="img-fluid" src={{ product.main_image.url }}></a></div>
+                    </div>
+                    <div class="img-small-wrap">
+                        {% for i in product.images.all %}
+                            <div class="item-gallery"><a data-lightbox="hamid-set" href="{{ i.image.url }}"><img  src={{ i.image.url }}></a></div>
+                        {% endfor %}
+                    </div> <!-- slider-nav.// -->
+                </article> <!-- gallery-wrap .end// -->
+            </aside>
+            <aside class="col-sm-7">
+                <article class="card-body p-5">
+                    <h3 class="title mb-3">Original Version of Some product name</h3>
+
+                    <p class="price-detail-wrap">
+	<span class="price h3 text-warning">
+		<span class="currency">US $</span><span class="num">1299</span>
+	</span>
+                        <span>/per kg</span>
+                    </p> <!-- price-detail-wrap .// -->
+                    <dl class="item-property">
+                        <dt>Description</dt>
+                        <dd><p>Here goes description consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco </p></dd>
+                    </dl>
+                    <dl class="param param-feature">
+                        <dt>Model#</dt>
+                        <dd>12345611</dd>
+                    </dl>  <!-- item-property-hor .// -->
+                    <dl class="param param-feature">
+                        <dt>Color</dt>
+                        <dd>Black and white</dd>
+                    </dl>  <!-- item-property-hor .// -->
+                    <dl class="param param-feature">
+                        <dt>Delivery</dt>
+                        <dd>Russia, USA, and Europe</dd>
+                    </dl>  <!-- item-property-hor .// -->
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <dl class="param param-inline">
+                                <dt>Quantity:</dt>
+                                <dd>
+                                    <select class="form-control form-control-sm" style="width:70px;">
+                                        <option> 1</option>
+                                        <option> 2</option>
+                                        <option> 3</option>
+                                    </select>
+                                </dd>
+                            </dl>  <!-- item-property .// -->
+                        </div> <!-- col.// -->
+                    </div>
+                    <hr>
+                    <a href="#" class="btn btn-lg btn-outline-success text-uppercase">
+                        <i class="fas fa-shopping-cart"></i> Add to cart </a>
+                </article>
+                <!-- card-body.// -->
+            </aside> <!-- col.// -->
+        </div> <!-- row.// -->
+    </div> <!-- card.// -->
+    <div class="product-description mb-5">
+        <h2 class="mb-5">Features</h2>
+        <dl class="row mb-5">
+            <dt class="col-sm-3">Brand</dt>
+            <dd class="col-sm-9">Nickony</dd>
+            <dt class="col-sm-3">Color</dt>
+            <dd class="col-sm-9">Red</dd>
+            <dt class="col-sm-3">Size</dt>
+            <dd class="col-sm-9">XXL</dd>
+            <dt class="col-sm-3">Fabric</dt>
+            <dd class="col-sm-9">Cottom</dd>
+        </dl>
+
+    </div>
+    <!--container.//-->
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true
+        })
+    </script>
+
+{% endblock %}
+</div>

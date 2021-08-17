@@ -78,7 +78,7 @@ class PriceAdmin(admin.ModelAdmin):
 class ProductModelAdmin(admin.ModelAdmin):
     fieldsets = [(_('add product'),
                   {'fields': ['name', 'inventory', 'inavailable', 'price',
-                              'category', 'brand', 'discount', 'score', 'view', 'slug']}),
+                              'category', 'brand', 'discount', 'score', 'view', 'slug','main_image']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'deleted'],
                    })]

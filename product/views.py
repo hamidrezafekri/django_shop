@@ -6,19 +6,20 @@ from .serializer import ProductSerializer, ProductBriefSerializer, CategorySeria
 
 
 class ProductView(ListView):
-    template_name = 'product/../templates/product.html'
+    template_name = 'product/cart.html'
     model = Product
 
 
-
 class ProductDetailView(DetailView):
-    template_name = 'product/../templates/product_detail.html'
+    template_name = 'product/product_detail_card.html'
     model = Product
 
 
 class CategoryView(ListView):
-    template_name = 'product/../templates/category.html'
+    template_name = 'product/category.html'
     model = Category
+
+
 
 
 from rest_framework.generics import *
@@ -26,7 +27,7 @@ from rest_framework.generics import *
 
 class ProductListApiView(ListAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.filter(deleted= False)
+    queryset = Product.objects.filter(deleted=False)
 
 
 class ProductDetailApi(RetrieveAPIView):
@@ -41,11 +42,9 @@ class ProductEditApi(UpdateAPIView):
     queryset = Product.objects.filter(deleted=False)
 
 
-
 class CategoryApiView(ListAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.filter(deleted=False)
 
-
-
-
+# TODO: add search box for the products
+# TODO: add filter for products

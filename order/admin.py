@@ -12,13 +12,18 @@ logical_delete.short_description = "logical delete"
 
 class OrderItemAdmin(admin.ModelAdmin):
     fieldsets = [(_('order items'),
-                  {'fields': ['product','customer','quantity']}),
+                  {'fields': ['product','customer','quantity','order']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'deleted']})]
 
     search_fields = ['product','customer','quantity']
     list_filter = ['quantity']
     actions = [logical_delete]
+
+
+class OrderItemInLine(admin.StackedInline):
+    model = OrderItem
+    extra = 1
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -29,6 +34,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     search_fields = ['customer','orderitem','status']
     actions = [logical_delete]
+    inlines = [OrderItemInLine]
 
 
 class OrderStatusAdmin(admin.ModelAdmin):
