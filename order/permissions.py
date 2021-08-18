@@ -1,8 +1,5 @@
 from rest_framework import permissions
 
-from core.models import User
-from customer.models import Customer
-
 
 class OnlySuperUser(permissions.BasePermission):
     def has_permission(self, request, view):

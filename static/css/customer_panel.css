@@ -1,0 +1,13 @@
+.sidebar, #content {
+  display: inline-block;
+}
+
+.sidebar div {
+  border: 1px solid black;
+  font-size: 18px;
+  padding: 8px 5px;
+}
+
+.wrapper {
+  border: 1px solid black;
+}

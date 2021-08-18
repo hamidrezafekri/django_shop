@@ -30,7 +30,7 @@ class AddressListApiView(ListAPIView):
     serializer_class = AddressBriefSerializer
 
     def get_queryset(self):
-        return Address.objects.filter(customer__user_id=self.request.user.id, deleted=False)
+        return Address.objects.filter(customer=self.request.user.id, deleted=False)
 
 
 class AddressDetailApiView(RetrieveUpdateDestroyAPIView):
@@ -38,7 +38,7 @@ class AddressDetailApiView(RetrieveUpdateDestroyAPIView):
     queryset = Address.objects.filter(deleted=False)
     permission_classes = [OnlyOwner]
 
-
+# --------------------------------------------------------------------------
 class LoginPage(LoginView):
     template_name = 'customer/login.html'
     success_url = reverse_lazy('customer:profile')
@@ -76,6 +76,15 @@ class AddressCreateView(LoginRequiredMixin,CreateView):
         address.customer = Customer.objects.get(user_ptr_id=self.request.user.id)
         address.save()
         return HttpResponse('address created successfully')
+
+
+
+class CustomerPanel(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'customer/customer_panel.html')
+
+
 
 #TODO: change and reset the password via email
 #TODO: update profile and address

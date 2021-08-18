@@ -22,5 +22,5 @@ class CustomerSerilazlizer(serializers.ModelSerializer):
 
 class CustomerBriefSerializer(serializers.ModelSerializer):
     class Meta:
-        model = 'Customer'
-        fields = ['id', 'national_code']
+        model = Customer
+        exclude = []

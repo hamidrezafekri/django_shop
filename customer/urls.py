@@ -17,5 +17,6 @@ urlpatterns = [
     path('logout/', Outview.as_view(), name='logout'),
     path('register/', UserRegisterView.as_view(), name='signup'),
     path('create_address/', AddressCreateView.as_view(), name='add_address'),
+    path('panel',CustomerPanel.as_view(),name='panel')
 
 ]

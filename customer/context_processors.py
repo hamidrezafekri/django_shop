@@ -1,3 +1,4 @@
+from product.models import Category
 from .models import *
 
 
