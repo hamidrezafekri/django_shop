@@ -161,3 +161,10 @@
     font-weight:600
   }
 }
+    #footer {
+   position:static;
+   bottom:0;
+   width:100%;
+   background:#78a206;
+
+}

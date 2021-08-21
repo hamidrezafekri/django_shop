@@ -1,0 +1,43 @@
+{% extends 'basepage.html' %}
+{% load static %}
+{% block content %}
+ <div class="row">
+        <div class="col-3">
+            <div class="card " style="width: 18rem;margin: 10rem  4rem 10rem ">
+                <div class="card-header">
+                    Featured
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item btn-light"><a href="#">order history</a></li>
+                    <li class="list-group-item btn-light"><a href="{% url 'customer:show_address' %}">addresses</a></li>
+                    <li class="list-group-item btn-light"><a href="{% url 'customer:add_address' %}" >add-address</a></li>
+                    <li class="list-group-item btn-light"><a href="{% url 'customer:personal_info' %}">personal info</a></li>
+                    <li class="list-group-item btn-light"><a href="#">change password</a></li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-8 m-auto">
+            <table class="table table-striped border-light shadow m-auto"
+                   style="width: 50% ; ">
+                <thead>
+                <tr>
+                    <th>username</th>
+                    <th>firstname</th>
+                    <th>lastname</th>
+                    <th>email</th>
+                </tr>
+                </thead>
+                {% for i in object_list %}
+                    <tbody>
+                    <tr>
+                        <td>{{ i.username}}</td>
+                        <td>{{ i.first_name }}</td>
+                        <td>{{ i.last_name }}</td>
+                        <td>{{ i.email }}</td>
+                    </tr>
+
+                    </tbody>
+                {% endfor %}
+            </table>
+{% endblock %}

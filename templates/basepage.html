@@ -15,7 +15,9 @@
     <script src="{% static "lightbox.min.js" %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block head %}{% endblock %}
+
 </head>
+
 <body>
 <div class="container-fluid">
     <div class="row">
@@ -70,12 +72,12 @@
                                     style="color: white">
                                 Menu
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu bg-light" aria-labelledby="dropdownMenuButton">
                                 {% load mptt_tags %}
                                 <ul class="root list-group">
                                     {% recursetree category %}
                                         <li style="list-style-type: none ;font-size:15px">
-                                            <a href="#" style="list-style-type: none">{{ node.name }}</a>
+                                            <a href="#" style="list-style-type: none " class="list-group-item bg-light">{{ node.name }}</a>
                                             {% if not node.is_leaf_node %}
                                                 <ul class="children">
                                                     {{ children }}
@@ -118,13 +120,15 @@
 
             </nav>
 
-
+            <div>
             {% block content %}
             {% endblock %}
+            </div>
+
 
             <!-- Site footer -->
-            <footer class="site-footer">
-                <div class="container">
+            <footer class="site-footer footer">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <h6>About</h6>
@@ -160,11 +164,11 @@
                     </div>
                     <hr>
                 </div>
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-8 col-sm-6 col-xs-12">
                             <p class="copyright-text">Copyright &copy; 2017 All Rights Reserved by
-                                <a href="#">Scanfcode</a>.
+                                <a href="#">hamidrezafekri</a>.
                             </p>
                         </div>
 

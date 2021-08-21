@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'basepage.html' %}
+{% load static %}
+{% block title %}register{% endblock %}
+{% block content %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" name="submit">
-</form>
+    <div class="row">
 
-</body>
-</html>
+            <div class="card m-auto  p-5 border-light shadow w-25 h-50 border-radius">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input class=" btn btn-primary border-primary border-radius" type="submit" name="register">
+                </form>
+            </div>
+        </div>
+
+{% endblock %}

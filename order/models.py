@@ -31,6 +31,7 @@ class OrderItem(BaseModel):
         if not self.quantity <= self.product.inventory:
             raise Exception(_('inventory is not enough'))
 
+    @property
     def total_price_order_item(self):
         return self.product.product_final_price() * self.quantity
 
@@ -42,15 +43,14 @@ class Order(BaseModel):
 
     status = models.ForeignKey('OrderStatus',
                                on_delete=models.CASCADE)
-    #TODO:add subtotal field for order
-    #TODO : add total field for order
-    #TODO : timestamp field for order
+
+
 
     def __str__(self):
         return f'{self.customer.username}'
 
 
-STATUS = [('processing', 'processing'), ('delivered', 'delivered'), ('cancled', 'cancled')]
+STATUS = [('processing', 'processing'), ('delivered', 'delivered'), ('cancled', 'cancled'),('payed','payed')]
 
 
 class OrderStatus(BaseModel):

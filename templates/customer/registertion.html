@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" name="submit">
-</form>
-
-</body>
-</html>
+{% extends 'basepage.html' %}
+{% load static %}
+{% block title %}register{% endblock %}
+{% block content %}
+    <div class="card w-25 m-auto p-5 border-light shadow  text-center">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input class="btn-primary border-primary border-radius" type="submit" name="register">
+        </form>
+    </div>
+{% endblock %}

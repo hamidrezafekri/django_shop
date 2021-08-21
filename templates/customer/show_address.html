@@ -1,0 +1,51 @@
+{% extends 'basepage.html' %}
+{% load static %}
+{% block title %}
+    addresses
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-3">
+            <div class="card " style="width: 18rem;margin: 10rem  4rem 10rem ">
+                <div class="card-header">
+                    Featured
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item btn-light"><a href="#">order history</a></li>
+                    <li class="list-group-item btn-light"><a href="{% url 'customer:show_address' %}">addresses</a></li>
+                    <li class="list-group-item btn-light"><a href="{% url 'customer:add_address' %}" >add-address</a></li>
+                    <li class="list-group-item btn-light"><a href="{% url 'customer:personal_info' %}">personal info</a></li>
+                    <li class="list-group-item btn-light"><a href="#">change password</a></li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-8 m-auto">
+            <table class="table table-striped border-light shadow m-auto"
+                   style="width: 50% ; ">
+                <thead>
+                <tr>
+                    <th>country</th>
+                    <th>province</th>
+                    <th>city</th>
+                    <th>postal_address</th>
+                </tr>
+                </thead>
+                {% for i in object_list %}
+                    <tbody>
+                    <tr>
+                        <td>{{ i.country }}</td>
+                        <td>{{ i.province }}</td>
+                        <td>{{ i.city }}</td>
+                        <td>{{ i.postal_address }}</td>
+                    </tr>
+
+                    </tbody>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
