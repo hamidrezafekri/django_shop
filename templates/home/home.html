@@ -2,24 +2,110 @@
 {% load static %}
 {% block title %}home{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div>
-            {% include%}
+    <div class="container-fluid bg-info my-5 mx-auto shadow" style="border-radius: 3%;box-shadow:#494646">
+        <div class="row">
+            <h1 class="text-light mx-5 my-5"> discount products</h1>
+            <div class="container my-5 ">
+                <div class="row justify-content-center m-auto">
+                    {% for item in  disproducts %}
+                        <div class="col-xl-3 col-lg-3 col-md-4  col-sm-6  pb-5">
+                            <div class="product-grid card card-body h-100">
+                                <div class="product-image text-center">
+                                    <a href="{% url 'product_detail' item.slug %}" class="image">
+                                        <img class="pic-1" style=" width: 100%;height: 15vw;object-fit: contain;"
+                                             src="{{ item.main_image.url }}">
+                                    </a>
+                                    {% if item.discount.discount %}
+                                        <span class="product-discount-label">{{ item.discount.discount }}%</span>
+                                        <ul class="product-links">
+                                            <li><a href="#" data-tip="add to favourite"><i class="fas fa-heart"></i></a>
+                                            </li>
+                                        </ul>
+                                    {% else %}
+                                        <ul class="product-links">
+                                            <li><a href="#" data-tip="add to favourite"><i class="fas fa-heart"></i></a>
+                                            </li>
+                                        </ul>
+                                    {% endif %}
+
+                                </div>
+                                {% if item.calculate_discount %}
+
+                                    <div class="product-content mt-5">
+                                        <h3 class="title"><a href="#">{{ item.name }}</a></h3>
+                                        <div class="price">
+                                            <span>{{ item.price.price }}</span>{{ item.product_final_price }}
+                                        </div>
+                                        <a class="add-to-cart margin" href="#">add to cart</a>
+                                    </div>
+                                {% else %}
+                                    <div class="mb-5">
+                                        <h3 class="title"><a href="#">{{ item.name }}</a></h3>
+                                        <div class="price"><span></span><br>{{ item.price.price }}</div>
+                                        <a class="add-to-cart margin" href="#">add to cart</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-
     </div>
-</div>
 
+    <div class="container-fluid bg-danger my-5 mx-auto shadow"style="border-radius: 3%;box-shadow:#494646">
+        <div class="row">
+            <h1 class="text-light my-5 mx-3"> new products</h1>
+            <div class="container my-5 ">
+                <div class="row justify-content-center m-auto">
+                    {% for item in  new_products %}
+                        <div class="col-xl-3 col-lg-3 col-md-4  col-sm-6  pb-5">
+                            <div class="product-grid card card-body h-100">
+                                <div class="product-image text-center">
+                                    <a href="{% url 'product_detail' item.slug %}" class="image">
+                                        <img class="pic-1" style=" width: 100%;height: 15vw;object-fit: contain;"
+                                             src="{{ item.main_image.url }}">
+                                    </a>
+                                    {% if item.discount.discount %}
+                                        <span class="product-discount-label">{{ item.discount.discount }}%</span>
+                                        <ul class="product-links">
+                                            <li><a href="#" data-tip="add to favourite"><i class="fas fa-heart"></i></a>
+                                            </li>
+                                        </ul>
+                                    {% else %}
+                                        <ul class="product-links">
+                                            <li><a href="#" data-tip="add to favourite"><i class="fas fa-heart"></i></a>
+                                            </li>
+                                        </ul>
+                                    {% endif %}
 
+                                </div>
+                                {% if item.calculate_discount %}
 
-
-
-
+                                    <div class="product-content mt-5">
+                                        <h3 class="title"><a href="#">{{ item.name }}</a></h3>
+                                        <div class="price">
+                                            <span>{{ item.price.price }}</span>{{ item.product_final_price }}
+                                        </div>
+                                        <a class="add-to-cart margin" href="#">add to cart</a>
+                                    </div>
+                                {% else %}
+                                    <div class="mb-5">
+                                        <h3 class="title"><a href="#">{{ item.name }}</a></h3>
+                                        <div class="price"><span></span><br>{{ item.price.price }}</div>
+                                        <a class="add-to-cart margin" href="#">add to cart</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}
-
 
 
 {#try to do with template tags filters #}

@@ -28,11 +28,11 @@ class OrderItemInLine(admin.StackedInline):
 
 class OrderAdmin(admin.ModelAdmin):
     fieldsets = [(_('order items'),
-                  {'fields': ['customer','orderitem','status']}),
+                  {'fields': ['customer','status']}),
                  (_('delete_status'),
                   {'fields': ['delete_time_stamp', 'deleted']})]
 
-    search_fields = ['customer','orderitem','status']
+    search_fields = ['customer','status']
     actions = [logical_delete]
     inlines = [OrderItemInLine]
 

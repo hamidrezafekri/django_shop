@@ -1,12 +1,9 @@
-{% extends "basepage.html" %}
+{% extends 'basepage.html' %}
 {% load static %}
-{% block head %}
-    <link rel="stylesheet" href="{% static  'css/product_card.css' %} ">
-{% endblock %}
 {% block content %}
     <div class="container ">
         <div class="row justify-content-center m-auto">
-            {% for item in object_list %}
+            {% for item in category.product_set.all %}
                 <div class="col-xl-3 col-lg-3 col-md-4  col-sm-6  pb-5">
                     <div class="product-grid card card-body h-100">
                         <div class="product-image text-center">

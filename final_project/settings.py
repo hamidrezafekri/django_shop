@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'customer',
     'product',
     'order',
+    'basket',
 
 ]
 
@@ -70,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'product.context_processors.add_var_to_context',
+                'basket.context_processors.basket',
 
 
             ],

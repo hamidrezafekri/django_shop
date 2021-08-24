@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <script src="{% static "lightbox.min.js" %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static  'css/product_card.css' %} ">
     {% block head %}{% endblock %}
 
 </head>
@@ -56,8 +57,8 @@
                 </button>
 
 
-                <a href="#!" class="position-absolute waves-effect ml-0" style="bottom: 10px;left:10px">
-                                <span class="badge badge-pill red border-danger"
+                <a href="{% url 'basket:my_basket' %}" class="position-absolute waves-effect ml-0" style="bottom: 10px;left:10px" role="button">
+                                <span class="badge badge-pill red border-danger ml-0"
                                       style="background-color: red;color: white">1</span>
                     <i class="fas fa-shopping-cart pl-0 " style="color: white ;font-size: 35px; "></i>
                 </a>
@@ -77,7 +78,9 @@
                                 <ul class="root list-group">
                                     {% recursetree category %}
                                         <li style="list-style-type: none ;font-size:15px">
-                                            <a href="#" style="list-style-type: none " class="list-group-item bg-light">{{ node.name }}</a>
+                                            <a href="#"
+                                               style="list-style-type: none "
+                                               class="list-group-item bg-light">{{ node.name }}</a>
                                             {% if not node.is_leaf_node %}
                                                 <ul class="children">
                                                     {{ children }}
@@ -90,27 +93,28 @@
                         </li>
 
                         {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a href="{% url 'customer:profile' %}"
-                               class="nav-link waves-effect hidden-desktop hidden-tablet" style="color: white">hi    {{user.username  }}
-
-                            </a>
                             <li class="nav-item">
-                            <a href="{% url 'customer:logout' %}"
-                               class="nav-link waves-effect hidden-desktop hidden-tablet" style="color: white">logout
+                                <a href="{% url 'customer:profile' %}"
+                                   class="nav-link waves-effect hidden-desktop hidden-tablet"
+                                   style="color: white">hi {{ user.username }}
 
-                            </a>
-                        </li>
+                                </a>
+                            <li class="nav-item">
+                                <a href="{% url 'customer:logout' %}"
+                                   class="nav-link waves-effect hidden-desktop hidden-tablet" style="color: white">logout
+
+                                </a>
+                            </li>
                         {% else %}
-                        <li class="nav-item">
-                            <a href="{% url 'customer:login' %}" class="nav-link waves-effect" style="color: white">
-                                Sign in
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'customer:signup' %}" type="button"
-                               class="nav-link waves-effect" style="color: white">Signup</a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{% url 'customer:login' %}" class="nav-link waves-effect" style="color: white">
+                                    Sign in
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'customer:signup' %}" type="button"
+                                   class="nav-link waves-effect" style="color: white">Signup</a>
+                            </li>
 
                         {% endif %}
                     </ul>
@@ -121,8 +125,8 @@
             </nav>
 
             <div>
-            {% block content %}
-            {% endblock %}
+                {% block content %}
+                {% endblock %}
             </div>
 
 
@@ -189,6 +193,8 @@
     </div>
 </div>
 
+{% block extra_js %}
 
+{% endblock %}
 </body>
 </html>

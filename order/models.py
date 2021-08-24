@@ -28,12 +28,15 @@ class OrderItem(BaseModel):
         return f'{self.product.name}'
 
     def check_inventory(self):
-        if not self.quantity <= self.product.inventory:
-            raise Exception(_('inventory is not enough'))
+        return self.quantity <= self.product.inventory
+
 
     @property
     def total_price_order_item(self):
         return self.product.product_final_price() * self.quantity
+    @property
+    def discount_order_item(self):
+        return self.product.calculate_discount()*self.quantity
 
 
 class Order(BaseModel):
@@ -44,13 +47,28 @@ class Order(BaseModel):
     status = models.ForeignKey('OrderStatus',
                                on_delete=models.CASCADE)
 
-
-
     def __str__(self):
         return f'{self.customer.username}'
 
+    @property
+    def sub_total_order(self):
+        sub_total=0
+        for i in self.orderitem_set.all():
+            sub_total += i.total_price_order_item
 
-STATUS = [('processing', 'processing'), ('delivered', 'delivered'), ('cancled', 'cancled'),('payed','payed')]
+        return sub_total
+
+    @property
+    def sub_total_dicount_order(self):
+        sub_discount=0
+        for j in self.orderitem_set.all():
+            sub_discount += j.discount_order_item
+
+        return sub_discount
+
+
+
+STATUS = [('processing', 'processing'), ('delivered', 'delivered'), ('cancled', 'cancled'), ('payed', 'payed')]
 
 
 class OrderStatus(BaseModel):

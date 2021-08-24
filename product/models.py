@@ -1,7 +1,8 @@
 from django.db import models
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from core.models import BaseModel
-from customer.models import Favourite
+from customer.models import Favourite, Customer
 from django.shortcuts import reverse
 from mptt.models import TreeForeignKey, MPTTModel
 
@@ -19,7 +20,6 @@ def product_image_path(instance, filename):
 
 def product_images_path(instance, filename):
     return f'product/{instance.product.category.name}/{instance.product.name}/{filename}'
-
 
 
 class Discount(BaseModel):
@@ -76,12 +76,21 @@ class DiscountCode(BaseModel):
                             null=False,
                             verbose_name=_('type of discountcode'))
 
+    customer_allowed = models.ManyToManyField(Customer, verbose_name=_('customer offcode'),
+                                      help_text='customer allow to use this code ')
+
     max_discount = models.PositiveIntegerField(verbose_name=_('maximum discount'),
                                                help_text=_('please enter the max discount'),
                                                )
+    customer_use = models.BooleanField(default=False,
+                                       help_text=_('if customer used '))
 
     def __str__(self):
         return f'{self.id}#  {self.name}'
+
+
+
+
 
 
 class Category(BaseModel, MPTTModel):
@@ -98,7 +107,7 @@ class Category(BaseModel, MPTTModel):
     slug = models.SlugField(max_length=150)
 
     def get_absolute_url(self):
-        return reverse("category_list", kwargs={
+        return reverse_lazy("category_detail", kwargs={
             'slug': self.slug
         })
 
@@ -125,9 +134,9 @@ class Brand(BaseModel):
     def __str__(self):
         return f'{self.id}# {self.name}'
 
-#TODO: add descreation for products
-#TODO: add new model for properties
 
+# TODO: add descreation for products
+# TODO: add new model for properties
 
 
 class Image(BaseModel):
@@ -195,6 +204,8 @@ class Product(BaseModel):
                                   null=True,
                                   blank=True)
     slug = models.SlugField(max_length=150)
+
+    #TODO: add describtion field in this
 
     def __str__(self):
         return f'{self.id}# {self.name}'

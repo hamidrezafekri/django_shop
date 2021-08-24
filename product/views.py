@@ -1,23 +1,43 @@
 from django.http import JsonResponse
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from .serializer import ProductSerializer, ProductBriefSerializer, CategorySerializer
 
 
 class ProductView(ListView):
-    template_name = 'product/cart.html'
+    template_name = 'product/card.html'
     model = Product
 
 
 class ProductDetailView(DetailView):
     template_name = 'product/product_detail_card.html'
     model = Product
-
+    lookup_url_kwarg = 'pk'
+    lookup_field = 'id'
 
 class CategoryView(ListView):
     template_name = 'product/category.html'
     model = Category
+
+
+
+
+
+class CategoryProductsView(DetailView):
+    template_name = 'product/category_detail.html'
+    model = Category
+
+
+
+
+
+
+
+
+
+
 
 
 

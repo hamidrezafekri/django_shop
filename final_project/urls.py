@@ -8,7 +8,10 @@ from final_project import settings
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', include('product.urls')),
-                  path('accounts/', include('customer.urls'))
+                  path('accounts/', include('customer.urls')),
+                  path('', include('home.urls')),
+                  path('basket/', include('basket.urls',namespace='basket')),
+                  # path('', include('order.urls'))
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'final_project.views.status_404'
