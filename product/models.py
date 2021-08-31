@@ -77,7 +77,7 @@ class DiscountCode(BaseModel):
                             verbose_name=_('type of discountcode'))
 
     customer_allowed = models.ManyToManyField(Customer, verbose_name=_('customer offcode'),
-                                      help_text='customer allow to use this code ')
+                                              help_text='customer allow to use this code ')
 
     max_discount = models.PositiveIntegerField(verbose_name=_('maximum discount'),
                                                help_text=_('please enter the max discount'),
@@ -87,10 +87,6 @@ class DiscountCode(BaseModel):
 
     def __str__(self):
         return f'{self.id}#  {self.name}'
-
-
-
-
 
 
 class Category(BaseModel, MPTTModel):
@@ -205,7 +201,6 @@ class Product(BaseModel):
                                   blank=True)
     slug = models.SlugField(max_length=150)
 
-    #TODO: add describtion field in this
 
     def __str__(self):
         return f'{self.id}# {self.name}'
@@ -231,7 +226,7 @@ class Product(BaseModel):
             return self.price.price * (self.discount.discount / 100)
         return self.discount.discount
 
-    # TODO:calculate discount percent if type is
+    # TODO:calculate discount percent if  is amount
 
     def product_final_price(self):
         if self.discount.discount:

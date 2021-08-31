@@ -36,13 +36,14 @@
                                         <div class="price">
                                             <span>{{ item.price.price }}</span>{{ item.product_final_price }}
                                         </div>
-                                        <a class="add-to-cart margin" href="#">add to cart</a>
+                                        <button type="button" id="add-button" class="add-to-cart margin">add to cart</button>
                                     </div>
                                 {% else %}
                                     <div class="mb-5">
+                                        <i hidden>{{ item.id }}</i>
                                         <h3 class="title"><a href="#">{{ item.name }}</a></h3>
                                         <div class="price"><span></span><br>{{ item.price.price }}</div>
-                                        <a class="add-to-cart margin" href="#">add to cart</a>
+                                        <button type="button" id="add-button" class="add-to-cart margin">add to cart</button>
                                     </div>
                                 {% endif %}
                             </div>
@@ -87,13 +88,15 @@
                                         <div class="price">
                                             <span>{{ item.price.price }}</span>{{ item.product_final_price }}
                                         </div>
-                                        <a class="add-to-cart margin" href="#">add to cart</a>
+                                        <i hidden>{{ item.id }}</i>
+                                        <button type="button" id="add-button" class="add-to-cart margin">add to cart</button>
                                     </div>
                                 {% else %}
                                     <div class="mb-5">
+                                        <i hidden>{{ item.id }}</i>
                                         <h3 class="title"><a href="#">{{ item.name }}</a></h3>
                                         <div class="price"><span></span><br>{{ item.price.price }}</div>
-                                        <a class="add-to-cart margin" href="#">add to cart</a>
+                                        <button type="button" id="add-button" class="add-to-cart margin">add to cart</button>
                                     </div>
                                 {% endif %}
                             </div>
@@ -107,5 +110,38 @@
 
 {% endblock %}
 
+{% block extra_js %}
+    <script>
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
 
-{#try to do with template tags filters #}
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+        $('#add-button').on('click', function () {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'basket:basket_add' %}",
+                data: {
+                    'id': {{ product.id }},
+                    'qty': Number(1),
+
+                },
+                success: function (data) {
+                    document.getElementById("basket-qty").innerHTML = data.qty
+
+                },
+                error: function (xhr, errmsg, err) {
+                }
+
+            });
+        })
+
+    </script>
+{% endblock %}

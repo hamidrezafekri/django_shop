@@ -80,17 +80,17 @@
             </div> <!-- row.// -->
         </div> <!-- card.// -->
         <div class="product-description mb-5">
-            <h2 class="mb-5">Features</h2>
-            <dl class="row mb-5">
-                <dt class="col-sm-3">Brand</dt>
-                <dd class="col-sm-9">Nickony</dd>
-                <dt class="col-sm-3">Color</dt>
-                <dd class="col-sm-9">Red</dd>
-                <dt class="col-sm-3">Size</dt>
-                <dd class="col-sm-9">XXL</dd>
-                <dt class="col-sm-3">Fabric</dt>
-                <dd class="col-sm-9">Cottom</dd>
-            </dl>
+{#            <h2 class="mb-5">Features</h2>#}
+{#            <dl class="row mb-5">#}
+{#                <dt class="col-sm-3">Brand</dt>#}
+{#                <dd class="col-sm-9">Nickony</dd>#}
+{#                <dt class="col-sm-3">Color</dt>#}
+{#                <dd class="col-sm-9">Red</dd>#}
+{#                <dt class="col-sm-3">Size</dt>#}
+{#                <dd class="col-sm-9">XXL</dd>#}
+{#                <dt class="col-sm-3">Fabric</dt>#}
+{#                <dd class="col-sm-9">Cottom</dd>#}
+{#            </dl>#}
         </div>
         <!--container.//-->
     </div>
@@ -121,6 +121,7 @@
 
                 },
                 success: function (data) {
+                    document.getElementById("basket-qty").innerHTML = data.qty
 
                 },
                 error: function (xhr, errmsg, err) {

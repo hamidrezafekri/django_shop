@@ -47,6 +47,8 @@ class Order(BaseModel):
     status = models.ForeignKey('OrderStatus',
                                on_delete=models.CASCADE)
 
+    order_key = models.CharField(max_length=200)
+
     def __str__(self):
         return f'{self.customer.username}'
 

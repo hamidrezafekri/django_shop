@@ -17,26 +17,18 @@ class ProductDetailView(DetailView):
     lookup_url_kwarg = 'pk'
     lookup_field = 'id'
 
+
 class CategoryView(ListView):
     template_name = 'product/category.html'
     model = Category
 
 
-
-
-
-class CategoryProductsView(DetailView):
+class CategoryProductsView(ListView):
     template_name = 'product/category_detail.html'
-    model = Category
+    context_object_name = 'products'
 
-
-
-
-
-
-
-
-
+    def get_queryset(self):
+        return Product.objects.filter(category__slug=self.kwargs['slug'])
 
 
 
