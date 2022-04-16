@@ -1,1 +1,1 @@
-# final_project
+# django_shop
